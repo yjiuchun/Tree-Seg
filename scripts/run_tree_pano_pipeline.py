@@ -25,6 +25,10 @@ class SelectedFrame:
     q_c2w: List[float]  # (qw,qx,qy,qz)
     dist_m: float
     angle_deg: float
+    # optional occlusion metrics (available when --map-las is provided)
+    occl_vox_xy_count: int = 0
+    tree_vox_xy_total: int = 0
+    occl_ratio: float = 0.0
 
 
 def _ensure_dir(p: Path) -> None:
@@ -101,8 +105,225 @@ def read_selected_jsonl(path: Path) -> List[SelectedFrame]:
                     q_c2w=[float(x) for x in d["q_c2w"]],
                     dist_m=float(d["dist_m"]),
                     angle_deg=float(d["angle_deg"]),
+                    occl_vox_xy_count=int(d.get("occl_vox_xy_count", 0)),
+                    tree_vox_xy_total=int(d.get("tree_vox_xy_total", 0)),
+                    occl_ratio=float(d.get("occl_ratio", 0.0)),
                 )
             )
+    return out
+
+
+def _voxelize_xy_unique_count(points_xyz: np.ndarray, voxel_size: float) -> int:
+    """
+    Quantize XY to a 2D voxel grid and return unique occupied voxel count.
+    points_xyz: (N,3) or (N,2)
+    """
+    voxel_size = float(voxel_size)
+    if voxel_size <= 0:
+        raise ValueError("voxel_size must be > 0")
+    pts = np.asarray(points_xyz, dtype=np.float64)
+    if pts.size == 0:
+        return 0
+    xy = pts[:, :2]
+    ij = np.floor(xy / voxel_size).astype(np.int64)  # (N,2)
+    # fast unique rows via structured view
+    v = np.ascontiguousarray(ij).view([("i", np.int64), ("j", np.int64)])
+    return int(np.unique(v).shape[0])
+
+
+def _filter_frames_by_occlusion_xy_voxel(
+    *,
+    selected: Sequence[SelectedFrame],
+    tree_cloud: LasCloud,
+    map_points: np.ndarray,
+    occl_fov_deg: float,
+    occl_radius_m: float,
+    occl_voxel_size: float,
+    occl_thr: float,
+    occl_tube_radius_m: float,
+    occl_tree_clearance_m: float,
+    occl_tree_bbox_margin_m: float,
+) -> List[SelectedFrame]:
+    """
+    Occlusion test in XY plane:
+    - take map points within a horizontal sector (FOV+radius) around the camera->tree direction
+    - keep points that lie between camera and tree (along ray) and close to ray (tube)
+    - exclude points inside tree bbox (XY) to avoid counting tree itself
+    - voxelize XY occupancy and compare against tree's XY voxel occupancy
+    """
+    tree_center = np.asarray(tree_cloud.center, dtype=np.float64).reshape(3)
+    tree_bbox = tree_cloud.bbox  # x_min,x_max,y_min,y_max,z_min,z_max
+    x_min, x_max, y_min, y_max = tree_bbox[0], tree_bbox[1], tree_bbox[2], tree_bbox[3]
+    margin = float(max(0.0, occl_tree_bbox_margin_m))
+    x0, x1 = x_min - margin, x_max + margin
+    y0, y1 = y_min - margin, y_max + margin
+
+    # denominator: tree xy voxel occupancy
+    tree_vox_xy_total = _voxelize_xy_unique_count(tree_cloud.points, occl_voxel_size)
+    if tree_vox_xy_total <= 0:
+        # Degenerate; keep all frames unchanged.
+        return list(selected)
+
+    map_pts = np.asarray(map_points, dtype=np.float64).reshape(-1, 3)
+    if map_pts.size == 0:
+        return [
+            SelectedFrame(**{**asdict(fr), "tree_vox_xy_total": int(tree_vox_xy_total)})  # type: ignore[arg-type]
+            for fr in selected
+        ]
+
+    occl_radius_m = float(occl_radius_m)
+    occl_fov_deg = float(occl_fov_deg)
+    occl_thr = float(occl_thr)
+    tube_r = float(occl_tube_radius_m)
+    tree_clearance = float(occl_tree_clearance_m)
+
+    if occl_radius_m <= 0 or tube_r <= 0:
+        return [
+            SelectedFrame(**{**asdict(fr), "tree_vox_xy_total": int(tree_vox_xy_total)})  # type: ignore[arg-type]
+            for fr in selected
+        ]
+
+    # precompute cosine threshold for FOV/2
+    half_fov = max(0.0, occl_fov_deg) * 0.5
+    cos_thr = math.cos(math.radians(half_fov))
+    cos_thr = float(np.clip(cos_thr, -1.0, 1.0))
+
+    tree_xy = tree_center[:2]
+    map_xy = map_pts[:, :2]
+    map_x = map_xy[:, 0]
+    map_y = map_xy[:, 1]
+
+    out: List[SelectedFrame] = []
+    filtered = 0
+
+    for fr in selected:
+        cam_xyz = np.asarray(fr.cam_xyz, dtype=np.float64).reshape(3)
+        cam_xy = cam_xyz[:2]
+        v_tree = tree_xy - cam_xy
+        dist_xy = float(np.linalg.norm(v_tree))
+        if dist_xy < 1e-8:
+            out.append(SelectedFrame(**{**asdict(fr), "tree_vox_xy_total": int(tree_vox_xy_total)}))  # type: ignore[arg-type]
+            continue
+        d_xy = v_tree / dist_xy  # unit
+
+        rel = map_xy - cam_xy  # (N,2)
+        rel_x = rel[:, 0]
+        rel_y = rel[:, 1]
+        r2 = rel_x * rel_x + rel_y * rel_y
+        r = np.sqrt(r2, dtype=np.float64)
+
+        # radius filter (and avoid zero)
+        m = (r <= occl_radius_m) & (r > 1e-9)
+        if not np.any(m):
+            out.append(
+                SelectedFrame(
+                    **{
+                        **asdict(fr),
+                        "occl_vox_xy_count": 0,
+                        "tree_vox_xy_total": int(tree_vox_xy_total),
+                        "occl_ratio": 0.0,
+                    }
+                )
+            )  # type: ignore[arg-type]
+            continue
+
+        rel_xm = rel_x[m]
+        rel_ym = rel_y[m]
+        rm = r[m]
+
+        # FOV filter by dot(rel, d) >= ||rel|| * cos_thr
+        dot = rel_xm * float(d_xy[0]) + rel_ym * float(d_xy[1])
+        m_fov = dot >= (rm * cos_thr)
+        if not np.any(m_fov):
+            out.append(
+                SelectedFrame(
+                    **{
+                        **asdict(fr),
+                        "occl_vox_xy_count": 0,
+                        "tree_vox_xy_total": int(tree_vox_xy_total),
+                        "occl_ratio": 0.0,
+                    }
+                )
+            )  # type: ignore[arg-type]
+            continue
+
+        rel_xf = rel_xm[m_fov]
+        rel_yf = rel_ym[m_fov]
+        dotf = dot[m_fov]  # this is t along ray because d_xy is unit
+
+        # between camera and tree (leave a clearance near tree)
+        t_max = max(0.0, dist_xy - tree_clearance)
+        m_seg = (dotf > 0.0) & (dotf < t_max)
+        if not np.any(m_seg):
+            out.append(
+                SelectedFrame(
+                    **{
+                        **asdict(fr),
+                        "occl_vox_xy_count": 0,
+                        "tree_vox_xy_total": int(tree_vox_xy_total),
+                        "occl_ratio": 0.0,
+                    }
+                )
+            )  # type: ignore[arg-type]
+            continue
+
+        rel_xs = rel_xf[m_seg]
+        rel_ys = rel_yf[m_seg]
+        ts = dotf[m_seg]
+
+        # perpendicular distance to ray
+        perp_x = rel_xs - ts * float(d_xy[0])
+        perp_y = rel_ys - ts * float(d_xy[1])
+        perp2 = perp_x * perp_x + perp_y * perp_y
+        m_tube = perp2 <= (tube_r * tube_r)
+        if not np.any(m_tube):
+            out.append(
+                SelectedFrame(
+                    **{
+                        **asdict(fr),
+                        "occl_vox_xy_count": 0,
+                        "tree_vox_xy_total": int(tree_vox_xy_total),
+                        "occl_ratio": 0.0,
+                    }
+                )
+            )  # type: ignore[arg-type]
+            continue
+
+        # reconstruct map XYZ subset indices to apply bbox filter without materializing all intermediate points
+        idx_m = np.flatnonzero(m)
+        idx_f = idx_m[m_fov]
+        idx_s = idx_f[m_seg]
+        idx_t = idx_s[m_tube]
+        pts_t = map_pts[idx_t]
+
+        # exclude points inside tree bbox (XY, with margin)
+        px = pts_t[:, 0]
+        py = pts_t[:, 1]
+        m_not_tree = ~((px >= x0) & (px <= x1) & (py >= y0) & (py <= y1))
+        pts_occ = pts_t[m_not_tree]
+
+        occl_vox = _voxelize_xy_unique_count(pts_occ, occl_voxel_size)
+        ratio = float(occl_vox) / float(tree_vox_xy_total)
+
+        if ratio > occl_thr:
+            filtered += 1
+            continue
+
+        out.append(
+            SelectedFrame(
+                **{
+                    **asdict(fr),
+                    "occl_vox_xy_count": int(occl_vox),
+                    "tree_vox_xy_total": int(tree_vox_xy_total),
+                    "occl_ratio": float(ratio),
+                }
+            )
+        )  # type: ignore[arg-type]
+
+    print(
+        f"[occlusion] kept {len(out)}/{len(selected)} frames "
+        f"(filtered={filtered}, thr={occl_thr}, voxel={occl_voxel_size}, fov={occl_fov_deg}, radius={occl_radius_m})"
+    )
     return out
 
 
@@ -138,7 +359,7 @@ def project_masks(
         uv_list: List[Tuple[int, int]] = []
         for p in points:
             uv = world_point_to_uv_equirect(
-                p, cam_xyz, q_c2w, w, h, flip_v=flip_v, require_in_front=True
+                p, cam_xyz, q_c2w, w, h, flip_v=flip_v, require_in_front=False
             )
             if uv is not None:
                 uv_list.append(uv)
@@ -204,6 +425,17 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--copy-selected", action="store_true")
     p.add_argument("--selected-dir", type=str, default=None)
 
+    # optional occlusion filtering using a global map point cloud
+    p.add_argument("--map-las", type=str, default=None, help="Optional global map LAS for occlusion filtering")
+    p.add_argument("--map-downsample-step", type=int, default=1, help="Downsample step for map LAS points")
+    p.add_argument("--occl-fov-deg", type=float, default=100.0, help="Horizontal sector FOV (degrees) for occlusion search")
+    p.add_argument("--occl-radius-m", type=float, default=10.0, help="Search radius (meters) from camera in XY")
+    p.add_argument("--occl-voxel-size", type=float, default=0.20, help="XY voxel size (meters) for occupancy ratio")
+    p.add_argument("--occl-thr", type=float, default=0.40, help="Filter frame if occlusion_ratio > thr")
+    p.add_argument("--occl-tube-radius-m", type=float, default=1.0, help="Ray tube radius in XY (meters)")
+    p.add_argument("--occl-tree-clearance-m", type=float, default=0.5, help="Clearance near tree end along the ray (meters)")
+    p.add_argument("--occl-tree-bbox-margin-m", type=float, default=0.5, help="XY margin around tree bbox to exclude points from occluders")
+
     p.add_argument("--downsample-step", type=int, default=1)
     p.add_argument("--downsample-ratio", type=float, default=None)
     p.add_argument("--seed", type=int, default=0)
@@ -242,6 +474,34 @@ def main() -> None:
             max_angle_deg=args.max_angle_deg,
         )
         print(f"[select] selected {len(selected)} frames")
+
+        # Optional occlusion filtering using a global map point cloud.
+        if args.map_las:
+            map_las = Path(args.map_las)
+            map_cloud = load_las_cloud(map_las)
+            map_pts = downsample_points_step(map_cloud.points, int(args.map_downsample_step))
+            # Pre-crop around tree in XY to reduce per-frame work.
+            tree_xy = cloud.center[:2].astype(np.float64)
+            map_xy = map_pts[:, :2]
+            r_keep = float(args.max_dist) + float(args.occl_radius_m)
+            if r_keep > 0:
+                dxy = map_xy - tree_xy
+                keep = (dxy[:, 0] * dxy[:, 0] + dxy[:, 1] * dxy[:, 1]) <= (r_keep * r_keep)
+                map_pts = map_pts[keep]
+            print(f"[occlusion] map points (downsampled+cropped): {len(map_cloud.points)} -> {len(map_pts)}")
+            selected = _filter_frames_by_occlusion_xy_voxel(
+                selected=selected,
+                tree_cloud=cloud,
+                map_points=map_pts,
+                occl_fov_deg=float(args.occl_fov_deg),
+                occl_radius_m=float(args.occl_radius_m),
+                occl_voxel_size=float(args.occl_voxel_size),
+                occl_thr=float(args.occl_thr),
+                occl_tube_radius_m=float(args.occl_tube_radius_m),
+                occl_tree_clearance_m=float(args.occl_tree_clearance_m),
+                occl_tree_bbox_margin_m=float(args.occl_tree_bbox_margin_m),
+            )
+
         write_selected_jsonl(selected, selected_jsonl)
         if args.copy_selected:
             sd = Path(args.selected_dir) if args.selected_dir else (out_dir / "selected_images")

@@ -55,6 +55,7 @@ Tree_Segment/
 
 支持三阶段流水线：
 1. **筛图**（距离 + 视角）：输出 `selected_frames.jsonl`，可选复制筛选图片
+   - 可选 **遮挡剔除**：基于全局 `map.las`，若相机到目标树的视线之间存在大量其它点云遮挡则剔除该帧
 2. **投影生成掩码**：tree 点云下采样后投影到等距柱状全景图，输出 `masks_raw/*.png`
 3. **掩码优化 + 抠图**：轮廓整体化/平滑，输出 `masks_refined/*.png` 与 `segmented/*.png`
 
@@ -73,6 +74,16 @@ Tree_Segment/
   - 你之前的 `d_cam.z > 0` 对应 `max_angle = 90°`
 
 输出 `selected_frames.jsonl`（每行一个 frame，包含：图片路径、位姿、dist、angle）。
+
+#### （可选）遮挡剔除：基于 map.las 的“视线遮挡”过滤
+某些情况下，虽然距离/视角满足，但从相机看过去**树被其它物体遮挡**，图像主体变成了其它物体。  
+此时可提供全局点云 `--map-las`，对每个候选帧做近似遮挡判断（XY 平面）：  
+- 在相机到树方向的**水平扇形**内截取 map 点云（默认 FOV=100°、半径=10m）  
+- 仅保留位于“相机与树之间”的点，并且在视线附近的“管状区域”内（默认管道半径 1m）  
+- 将这些“可能遮挡点”做 **XY 体素占用**统计（默认体素 0.2m）  
+- 若遮挡体素数 / 树体素数 > 阈值（默认 0.4）则剔除该帧  
+
+遮挡统计会写入 `selected_frames.jsonl` 字段：`occl_vox_xy_count/tree_vox_xy_total/occl_ratio`，便于你回看为什么被过滤。
 
 #### 阶段 (2) 投影：点云 → 像素 → raw mask
 - 点云（tree.las）先下采样（`--downsample-step` 或 `--downsample-ratio`）
@@ -115,6 +126,22 @@ python3 ".../Tree_Segment/scripts/run_tree_pano_pipeline.py" \
   --out-dir ".../Tree_Segment/output" \
   --max-dist 10 --max-angle-deg 90 \
   --copy-selected
+```
+
+### 只做筛图（含遮挡剔除：需要 map.las）
+
+```bash
+python3 ".../Tree_Segment/scripts/run_tree_pano_pipeline.py" \
+  --stage select \
+  --tree-las ".../tree2.las" \
+  --pano-image-dir ".../panoramicImage" \
+  --pano-poses ".../panoramicPoses.csv" \
+  --out-dir ".../Tree_Segment/output" \
+  --max-dist 10 --max-angle-deg 90 \
+  --map-las ".../map.las" \
+  --occl-fov-deg 100 --occl-radius-m 10 \
+  --occl-voxel-size 0.20 --occl-thr 0.40 \
+  --occl-tube-radius-m 1.0
 ```
 
 ### 只做投影掩码（依赖已有 selected_frames.jsonl）
