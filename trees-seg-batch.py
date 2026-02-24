@@ -20,6 +20,7 @@ _SCRIPTS_DIR = Path(__file__).resolve().parent / "scripts"
 if _SCRIPTS_DIR.exists() and str(_SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS_DIR))
 
+from lib.las_utils import load_las_cloud  # noqa: E402
 from lib.mask_ops import apply_mask_bgr, refine_mask  # noqa: E402
 from lib.poses import resolve_pano_image_path  # noqa: E402
 from ImageFilter import ImageFilter  # noqa: E402
@@ -32,6 +33,8 @@ DEFAULT_PANO_POSES_CSV = "/root/autodl-fs/222-pcimg-data/panoramicPoses.csv"
 DEFAULT_MAP_LAS = "/root/autodl-fs/222-pcimg-data/map2.las"
 DEFAULT_TREE_LAS_DIR = "/root/Tree-Seg/tree-origin"
 DEFAULT_OUTPUT_DIR = "/root/Tree-Seg/50trees-output"
+# 被滤除的图片保存目录（遮挡、空 mask 等）
+DEFAULT_DISCARDED_DIR = Path(__file__).resolve().parent / "temp"
 
 
 def _crop_centered_on_mask(
@@ -89,6 +92,7 @@ def _process_one_tree(
     pano_image_dir: Path,
     pano_poses_csv: Path,
     output_dir: Path,
+    discarded_dir: Optional[Path],
     map_las: Optional[Path],
     max_dist_m: float,
     crop_width: int,
@@ -108,21 +112,35 @@ def _process_one_tree(
     """Run ImageFilter + PCProjection for one tree, then crop and save images. Returns (saved_count, skipped_count)."""
     import cv2
 
+    image_filter = ImageFilter(
+        pano_image_dir=pano_image_dir,
+        pano_poses_csv=pano_poses_csv,
+        max_dist_m=max_dist_m,
+    )
+    selected_basenames = image_filter.filter_by_distance(
+        tree_las=tree_las_path,
+        output_dir=None,
+    )
+    if not selected_basenames:
+        # 距离滤除：统计并打印距离最近的 10 个 pose
+        cloud = load_las_cloud(tree_las_path)
+        tree_center = np.asarray(cloud.center, dtype=np.float64).reshape(3)
+        dist_list: List[Tuple[float, str]] = []
+        for basename, pose in image_filter.pose_index.items():
+            dist = float(np.linalg.norm(tree_center - np.asarray(pose.cam_xyz)))
+            dist_list.append((dist, basename))
+        dist_list.sort(key=lambda x: x[0])
+        top_n = min(10, len(dist_list))
+        print(f"  [距离滤除] 无帧在 max_dist_m={max_dist_m}m 内，最近 {top_n} 个 pose 的距离:")
+        for k, (d, name) in enumerate(dist_list[:top_n], 1):
+            print(f"    {k}. {d:.3f} m  {name}")
+        if len(dist_list) == 0:
+            print("  [距离滤除] 姿态表为空，无法统计距离。")
+        return 0, 0
+
     # Temporary directory for this tree's masks (will be removed at the end)
     temp_dir = Path(tempfile.mkdtemp(prefix="trees_seg_batch_"))
     try:
-        image_filter = ImageFilter(
-            pano_image_dir=pano_image_dir,
-            pano_poses_csv=pano_poses_csv,
-            max_dist_m=max_dist_m,
-        )
-        selected_basenames = image_filter.filter_by_distance(
-            tree_las=tree_las_path,
-            output_dir=None,
-        )
-        if not selected_basenames:
-            return 0, 0
-
         proj = PCProjection(
             pano_image_dir=pano_image_dir,
             pano_poses_csv=pano_poses_csv,
@@ -137,18 +155,33 @@ def _process_one_tree(
             tree_clearance_m=tree_clearance_m,
             tree_bbox_margin_m=tree_bbox_margin_m,
         )
-        written, _discarded = proj.project(
+        written, discarded = proj.project(
             tree_las=tree_las_path,
             output_dir=temp_dir,
             selected_basenames=selected_basenames,
             write_params_json=False,
         )
 
+        # 将遮挡滤除的图片保存到 discarded_dir/tree_name/occluded/
+        if discarded_dir is not None and discarded:
+            occluded_dir = discarded_dir / tree_name / "occluded"
+            occluded_dir.mkdir(parents=True, exist_ok=True)
+            for key in discarded:
+                src = resolve_pano_image_path(pano_image_dir, key)
+                if src is not None and src.exists():
+                    shutil.copy2(src, occluded_dir / Path(key).name)
+            if discarded:
+                print(f"  [其他滤除] 遮挡丢弃 {len(discarded)} 张已保存到 {occluded_dir}")
+
         tree_out_dir = output_dir / tree_name
         tree_out_dir.mkdir(parents=True, exist_ok=True)
         masks_raw_dir = temp_dir / "masks_raw"
         saved = 0
         skipped = 0
+        empty_mask_saved = 0
+        empty_mask_dir = (discarded_dir / tree_name / "empty_mask") if discarded_dir else None
+        if empty_mask_dir is not None:
+            empty_mask_dir.mkdir(parents=True, exist_ok=True)
 
         for basename in written:
             key = Path(basename).name
@@ -178,11 +211,17 @@ def _process_one_tree(
             segmented = apply_mask_bgr(img, mask)
             cropped = _crop_centered_on_mask(segmented, mask, crop_width, crop_height)
             if cropped is None:
+                if empty_mask_dir is not None:
+                    shutil.copy2(img_path, empty_mask_dir / Path(basename).name)
+                    empty_mask_saved += 1
                 skipped += 1
                 continue
             out_path = tree_out_dir / f"{stem}.png"
             cv2.imwrite(str(out_path), cropped)
             saved += 1
+
+        if empty_mask_saved > 0:
+            print(f"  [其他滤除] 空 mask 跳过 {empty_mask_saved} 张已保存到 {empty_mask_dir}")
 
         return saved, skipped
     finally:
@@ -222,6 +261,12 @@ def main() -> None:
         type=Path,
         default=Path(DEFAULT_OUTPUT_DIR),
         help="Output root directory (one subfolder per tree)",
+    )
+    parser.add_argument(
+        "--discarded-dir",
+        type=Path,
+        default=Path(DEFAULT_DISCARDED_DIR),
+        help="Directory to save discarded images (occluded / empty_mask), default: Tree-Seg/temp",
     )
     parser.add_argument(
         "--map-las",
@@ -335,6 +380,7 @@ def main() -> None:
         print(f"Tree LAS directory does not exist: {tree_las_dir}")
         sys.exit(1)
     output_dir.mkdir(parents=True, exist_ok=True)
+    args.discarded_dir.mkdir(parents=True, exist_ok=True)
 
     las_paths = _collect_las_paths(tree_las_dir, args.max_trees)
     if not las_paths:
@@ -356,6 +402,7 @@ def main() -> None:
             pano_image_dir=args.pano_image_dir,
             pano_poses_csv=args.pano_poses_csv,
             output_dir=output_dir,
+            discarded_dir=args.discarded_dir,
             map_las=args.map_las if args.map_las.exists() else None,
             max_dist_m=args.max_dist_m,
             crop_width=args.crop_width,
