@@ -1,0 +1,1400 @@
+Processing 50 trees from /root/Tree-Seg/tree-origin
+Output directory: /root/Tree-Seg/50trees-output
+Crop size: 1080x720
+[1/50] Tree: 1
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/1.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_6kkrjtuq
+  selected_basenames_count: 7
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/7 wrote 1764057451.829345.png (points=9879)
+Wrote 7 masks to /tmp/trees_seg_batch_6kkrjtuq/masks_raw; discarded 0 by occlusion.
+  Saved 7 crops, skipped 0
+[2/50] Tree: 10
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/10.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_iqb49z_6
+  selected_basenames_count: 27
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/27 wrote 1764057446.532620.png (points=2367)
+Wrote 19 masks to /tmp/trees_seg_batch_iqb49z_6/masks_raw; discarded 8 by occlusion.
+  [遮挡滤除] 丢弃 8 张
+  Saved 19 crops, skipped 0
+[3/50] Tree: 11
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/11.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_qq6j80qq
+  selected_basenames_count: 14
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/14 wrote 1764057435.639363.png (points=6811)
+Wrote 14 masks to /tmp/trees_seg_batch_qq6j80qq/masks_raw; discarded 0 by occlusion.
+  Saved 14 crops, skipped 0
+[4/50] Tree: 12
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/12.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_j7gascsf
+  selected_basenames_count: 23
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/23 wrote 1764057391.066966.png (points=2408)
+Wrote 23 masks to /tmp/trees_seg_batch_j7gascsf/masks_raw; discarded 0 by occlusion.
+  Saved 23 crops, skipped 0
+[5/50] Tree: 13
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/13.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_4fdgl2aj
+  selected_basenames_count: 27
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/27 wrote 1764057453.528293.png (points=13946)
+Wrote 25 masks to /tmp/trees_seg_batch_4fdgl2aj/masks_raw; discarded 2 by occlusion.
+  [遮挡滤除] 丢弃 2 张
+  Saved 25 crops, skipped 0
+[6/50] Tree: 14
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 13.017 m  1764060226.916591.jpg
+    2. 13.059 m  1764060226.017147.jpg
+    3. 13.343 m  1764060224.917853.jpg
+    4. 13.364 m  1764060228.215790.jpg
+    5. 13.671 m  1764060224.218256.jpg
+    6. 13.981 m  1764060229.315112.jpg
+    7. 14.630 m  1764060222.819119.jpg
+    8. 15.014 m  1764060276.685874.jpg
+    9. 15.078 m  1764060275.586557.jpg
+    10. 15.245 m  1764060277.985073.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/14.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_66v3dg1x
+  selected_basenames_count: 7
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/7 wrote 1764060222.819119.png (points=2264)
+Wrote 7 masks to /tmp/trees_seg_batch_66v3dg1x/masks_raw; discarded 0 by occlusion.
+  [距离重试成功] 14_+5m: saved 7, skipped 0
+[7/50] Tree: 15
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 11.640 m  1764057444.633795.jpg
+    2. 11.683 m  1764057445.333362.jpg
+    3. 11.693 m  1764057443.334600.jpg
+    4. 11.822 m  1764057442.235280.jpg
+    5. 11.849 m  1764057446.532620.jpg
+    6. 11.965 m  1764057441.535713.jpg
+    7. 11.984 m  1764057447.032312.jpg
+    8. 12.224 m  1764057440.436393.jpg
+    9. 12.534 m  1764057448.631322.jpg
+    10. 12.720 m  1764057439.237136.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/15.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_ny4dyot4
+  selected_basenames_count: 24
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/24 wrote 1764057435.639363.png (points=1205)
+Wrote 9 masks to /tmp/trees_seg_batch_ny4dyot4/masks_raw; discarded 15 by occlusion.
+  [遮挡滤除] 丢弃 15 张
+  [距离重试成功] 15_+5m: saved 9, skipped 0
+[8/50] Tree: 16
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/16.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_pki9lp4_
+  selected_basenames_count: 9
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/9 wrote 1764057425.745487.png (points=27989)
+Wrote 9 masks to /tmp/trees_seg_batch_pki9lp4_/masks_raw; discarded 0 by occlusion.
+  Saved 9 crops, skipped 0
+[9/50] Tree: 17
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/17.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_tunhf3h9
+  selected_basenames_count: 30
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/30 wrote 1764057391.066966.png (points=10490)
+Wrote 30 masks to /tmp/trees_seg_batch_tunhf3h9/masks_raw; discarded 0 by occlusion.
+  Saved 30 crops, skipped 0
+[10/50] Tree: 18
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/18.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_t8bm7mei
+  selected_basenames_count: 5
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/5 wrote 1764060228.215790.png (points=1176)
+Wrote 5 masks to /tmp/trees_seg_batch_t8bm7mei/masks_raw; discarded 0 by occlusion.
+  Saved 5 crops, skipped 0
+[11/50] Tree: 19
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 12.379 m  1764057439.237136.jpg
+    2. 12.384 m  1764057438.037878.jpg
+    3. 12.441 m  1764057437.438249.jpg
+    4. 12.482 m  1764057440.436393.jpg
+    5. 12.594 m  1764057436.338931.jpg
+    6. 12.737 m  1764057441.535713.jpg
+    7. 12.745 m  1764057435.639363.jpg
+    8. 12.935 m  1764057442.235280.jpg
+    9. 13.029 m  1764057434.639982.jpg
+    10. 13.346 m  1764057443.334600.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/19.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_ctouv4np
+  selected_basenames_count: 17
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/17 wrote 1764057430.442580.png (points=4362)
+Wrote 17 masks to /tmp/trees_seg_batch_ctouv4np/masks_raw; discarded 0 by occlusion.
+  [距离重试成功] 19_+5m: saved 17, skipped 0
+[12/50] Tree: 2
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/2.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_g08tl_5b
+  selected_basenames_count: 18
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/18 wrote 1764057457.326004.png (points=3650)
+Wrote 10 masks to /tmp/trees_seg_batch_g08tl_5b/masks_raw; discarded 8 by occlusion.
+  [遮挡滤除] 丢弃 8 张
+  Saved 10 crops, skipped 0
+[13/50] Tree: 20
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 13.030 m  1764057605.134585.jpg
+    2. 13.451 m  1764057604.035263.jpg
+    3. 13.505 m  1764057606.933473.jpg
+    4. 14.374 m  1764057608.032794.jpg
+    5. 14.517 m  1764057602.236374.jpg
+    6. 14.933 m  1764057601.636746.jpg
+    7. 15.223 m  1764057608.932238.jpg
+    8. 15.882 m  1764057600.337548.jpg
+    9. 16.407 m  1764057610.131498.jpg
+    10. 16.883 m  1764057599.038352.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/20.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch__kvfnceo
+  selected_basenames_count: 6
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/6 wrote 1764057601.636746.png (points=177)
+Wrote 4 masks to /tmp/trees_seg_batch__kvfnceo/masks_raw; discarded 2 by occlusion.
+  [遮挡滤除] 丢弃 2 张
+  [距离重试成功] 20_+5m: saved 4, skipped 0
+[14/50] Tree: 21
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 13.826 m  1764057435.639363.jpg
+    2. 13.837 m  1764057436.338931.jpg
+    3. 13.888 m  1764057434.639982.jpg
+    4. 13.936 m  1764057437.438249.jpg
+    5. 14.023 m  1764057438.037878.jpg
+    6. 14.181 m  1764057433.040973.jpg
+    7. 14.312 m  1764057439.237136.jpg
+    8. 14.333 m  1764057432.441344.jpg
+    9. 14.675 m  1764057440.436393.jpg
+    10. 14.698 m  1764057431.042209.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/21.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_kfd5alh7
+  selected_basenames_count: 11
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/11 wrote 1764057430.442580.png (points=899)
+Wrote 11 masks to /tmp/trees_seg_batch_kfd5alh7/masks_raw; discarded 0 by occlusion.
+  [距离重试成功] 21_+5m: saved 11, skipped 0
+[15/50] Tree: 22
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 20.468 m  1764057606.933473.jpg
+    2. 20.564 m  1764057605.134585.jpg
+    3. 20.974 m  1764057608.032794.jpg
+    4. 21.402 m  1764057604.035263.jpg
+    5. 21.545 m  1764057608.932238.jpg
+    6. 22.460 m  1764057610.131498.jpg
+    7. 23.002 m  1764057602.236374.jpg
+    8. 23.554 m  1764057601.636746.jpg
+    9. 23.989 m  1764057612.030326.jpg
+    10. 24.498 m  1764057612.629955.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+  [距离滤除] 无帧在 max_dist_m=15.0m 内，最近 10 个 pose 的距离:
+    1. 20.468 m  1764057606.933473.jpg
+    2. 20.564 m  1764057605.134585.jpg
+    3. 20.974 m  1764057608.032794.jpg
+    4. 21.402 m  1764057604.035263.jpg
+    5. 21.545 m  1764057608.932238.jpg
+    6. 22.460 m  1764057610.131498.jpg
+    7. 23.002 m  1764057602.236374.jpg
+    8. 23.554 m  1764057601.636746.jpg
+    9. 23.989 m  1764057612.030326.jpg
+    10. 24.498 m  1764057612.629955.jpg
+  [距离重试] max_dist=20.0m (+10m) ...
+  [距离滤除] 无帧在 max_dist_m=20.0m 内，最近 10 个 pose 的距离:
+    1. 20.468 m  1764057606.933473.jpg
+    2. 20.564 m  1764057605.134585.jpg
+    3. 20.974 m  1764057608.032794.jpg
+    4. 21.402 m  1764057604.035263.jpg
+    5. 21.545 m  1764057608.932238.jpg
+    6. 22.460 m  1764057610.131498.jpg
+    7. 23.002 m  1764057602.236374.jpg
+    8. 23.554 m  1764057601.636746.jpg
+    9. 23.989 m  1764057612.030326.jpg
+    10. 24.498 m  1764057612.629955.jpg
+  [距离重试] max_dist=25.0m (+15m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/22.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_wxsc9kx3
+  selected_basenames_count: 11
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/11 wrote 1764057600.337548.png (points=933)
+Wrote 9 masks to /tmp/trees_seg_batch_wxsc9kx3/masks_raw; discarded 2 by occlusion.
+  [遮挡滤除] 丢弃 2 张
+  [距离重试成功] 22_+15m: saved 9, skipped 0
+[16/50] Tree: 23
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 21.491 m  1764060244.405799.jpg
+    2. 21.525 m  1764060243.306477.jpg
+    3. 21.634 m  1764060242.506971.jpg
+    4. 21.695 m  1764060245.405182.jpg
+    5. 21.959 m  1764060246.204688.jpg
+    6. 22.161 m  1764060241.307710.jpg
+    7. 22.544 m  1764060247.503886.jpg
+    8. 22.822 m  1764060248.003578.jpg
+    9. 22.850 m  1764060240.308327.jpg
+    10. 23.568 m  1764060239.408882.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+  [距离滤除] 无帧在 max_dist_m=15.0m 内，最近 10 个 pose 的距离:
+    1. 21.491 m  1764060244.405799.jpg
+    2. 21.525 m  1764060243.306477.jpg
+    3. 21.634 m  1764060242.506971.jpg
+    4. 21.695 m  1764060245.405182.jpg
+    5. 21.959 m  1764060246.204688.jpg
+    6. 22.161 m  1764060241.307710.jpg
+    7. 22.544 m  1764060247.503886.jpg
+    8. 22.822 m  1764060248.003578.jpg
+    9. 22.850 m  1764060240.308327.jpg
+    10. 23.568 m  1764060239.408882.jpg
+  [距离重试] max_dist=20.0m (+10m) ...
+  [距离滤除] 无帧在 max_dist_m=20.0m 内，最近 10 个 pose 的距离:
+    1. 21.491 m  1764060244.405799.jpg
+    2. 21.525 m  1764060243.306477.jpg
+    3. 21.634 m  1764060242.506971.jpg
+    4. 21.695 m  1764060245.405182.jpg
+    5. 21.959 m  1764060246.204688.jpg
+    6. 22.161 m  1764060241.307710.jpg
+    7. 22.544 m  1764060247.503886.jpg
+    8. 22.822 m  1764060248.003578.jpg
+    9. 22.850 m  1764060240.308327.jpg
+    10. 23.568 m  1764060239.408882.jpg
+  [距离重试] max_dist=25.0m (+15m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/23.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_8uv6n9uf
+  selected_basenames_count: 12
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/12 wrote 1764060238.309560.png (points=791)
+Wrote 4 masks to /tmp/trees_seg_batch_8uv6n9uf/masks_raw; discarded 8 by occlusion.
+  [遮挡滤除] 丢弃 8 张
+  [距离重试成功] 23_+15m: saved 4, skipped 0
+[17/50] Tree: 24
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/24.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_c18ht130
+  selected_basenames_count: 2
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/2 discard (occl ratio 1.273) 1764060221.719802.jpg
+Wrote 0 masks to /tmp/trees_seg_batch_c18ht130/masks_raw; discarded 2 by occlusion.
+  [遮挡滤除] 丢弃 2 张
+  [关闭遮挡重试] 24_nofilter ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/24.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_zlds4_1i
+  selected_basenames_count: 2
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: None
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/2 wrote 1764060221.719802.png (points=791)
+Wrote 2 masks to /tmp/trees_seg_batch_zlds4_1i/masks_raw; discarded 0 by occlusion.
+  [关闭遮挡成功] 24_nofilter: saved 2
+[18/50] Tree: 25
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 14.874 m  1764057440.436393.jpg
+    2. 14.898 m  1764057441.535713.jpg
+    3. 14.933 m  1764057442.235280.jpg
+    4. 15.035 m  1764057439.237136.jpg
+    5. 15.078 m  1764057443.334600.jpg
+    6. 15.283 m  1764057438.037878.jpg
+    7. 15.313 m  1764057444.633795.jpg
+    8. 15.446 m  1764057437.438249.jpg
+    9. 15.496 m  1764057445.333362.jpg
+    10. 15.528 m  1764057492.604125.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/25.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_dsjy_iw4
+  selected_basenames_count: 3
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/3 discard (occl ratio 0.852) 1764057440.436393.jpg
+Wrote 0 masks to /tmp/trees_seg_batch_dsjy_iw4/masks_raw; discarded 3 by occlusion.
+  [遮挡滤除] 丢弃 3 张
+  [距离+关闭遮挡] 25_+5m_nofilter ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/25.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_7fgt4lck
+  selected_basenames_count: 3
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: None
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/3 wrote 1764057440.436393.png (points=835)
+Wrote 3 masks to /tmp/trees_seg_batch_7fgt4lck/masks_raw; discarded 0 by occlusion.
+  [距离+关闭遮挡成功] 25_+5m_nofilter: saved 3
+[19/50] Tree: 26
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 15.296 m  1764057566.558416.jpg
+    2. 15.380 m  1764057567.957551.jpg
+    3. 15.551 m  1764057565.858848.jpg
+    4. 15.820 m  1764057568.956934.jpg
+    5. 16.512 m  1764057570.256131.jpg
+    6. 16.641 m  1764057403.759101.jpg
+    7. 16.721 m  1764057563.860081.jpg
+    8. 16.864 m  1764057405.458048.jpg
+    9. 17.065 m  1764057402.559845.jpg
+    10. 17.562 m  1764057562.760760.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+  [距离滤除] 无帧在 max_dist_m=15.0m 内，最近 10 个 pose 的距离:
+    1. 15.296 m  1764057566.558416.jpg
+    2. 15.380 m  1764057567.957551.jpg
+    3. 15.551 m  1764057565.858848.jpg
+    4. 15.820 m  1764057568.956934.jpg
+    5. 16.512 m  1764057570.256131.jpg
+    6. 16.641 m  1764057403.759101.jpg
+    7. 16.721 m  1764057563.860081.jpg
+    8. 16.864 m  1764057405.458048.jpg
+    9. 17.065 m  1764057402.559845.jpg
+    10. 17.562 m  1764057562.760760.jpg
+  [距离重试] max_dist=20.0m (+10m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/26.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_4hu4ram2
+  selected_basenames_count: 26
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/26 wrote 1764057391.066966.png (points=4923)
+Wrote 10 masks to /tmp/trees_seg_batch_4hu4ram2/masks_raw; discarded 16 by occlusion.
+  [遮挡滤除] 丢弃 16 张
+  [距离重试成功] 26_+10m: saved 10, skipped 0
+[20/50] Tree: 27
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 10.047 m  1764060221.719802.jpg
+    2. 10.088 m  1764060220.820353.jpg
+    3. 10.149 m  1764060220.320661.jpg
+    4. 10.304 m  1764060222.819119.jpg
+    5. 10.619 m  1764060218.721652.jpg
+    6. 10.633 m  1764060273.687725.jpg
+    7. 10.695 m  1764060272.388527.jpg
+    8. 10.898 m  1764060218.122018.jpg
+    9. 11.003 m  1764060274.587169.jpg
+    10. 11.008 m  1764060271.589023.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/27.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_dti6xsvm
+  selected_basenames_count: 32
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/32 discard (occl ratio 2.523) 1764060213.624793.jpg
+Wrote 2 masks to /tmp/trees_seg_batch_dti6xsvm/masks_raw; discarded 30 by occlusion.
+  [遮挡滤除] 丢弃 30 张
+  [距离重试成功] 27_+5m: saved 2, skipped 0
+[21/50] Tree: 28
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 21.417 m  1764057606.933473.jpg
+    2. 21.654 m  1764057608.032794.jpg
+    3. 21.824 m  1764057605.134585.jpg
+    4. 21.999 m  1764057608.932238.jpg
+    5. 22.658 m  1764057610.131498.jpg
+    6. 22.801 m  1764057604.035263.jpg
+    7. 23.644 m  1764060246.204688.jpg
+    8. 23.684 m  1764060247.503886.jpg
+    9. 23.716 m  1764060245.405182.jpg
+    10. 23.749 m  1764060248.003578.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+  [距离滤除] 无帧在 max_dist_m=15.0m 内，最近 10 个 pose 的距离:
+    1. 21.417 m  1764057606.933473.jpg
+    2. 21.654 m  1764057608.032794.jpg
+    3. 21.824 m  1764057605.134585.jpg
+    4. 21.999 m  1764057608.932238.jpg
+    5. 22.658 m  1764057610.131498.jpg
+    6. 22.801 m  1764057604.035263.jpg
+    7. 23.644 m  1764060246.204688.jpg
+    8. 23.684 m  1764060247.503886.jpg
+    9. 23.716 m  1764060245.405182.jpg
+    10. 23.749 m  1764060248.003578.jpg
+  [距离重试] max_dist=20.0m (+10m) ...
+  [距离滤除] 无帧在 max_dist_m=20.0m 内，最近 10 个 pose 的距离:
+    1. 21.417 m  1764057606.933473.jpg
+    2. 21.654 m  1764057608.032794.jpg
+    3. 21.824 m  1764057605.134585.jpg
+    4. 21.999 m  1764057608.932238.jpg
+    5. 22.658 m  1764057610.131498.jpg
+    6. 22.801 m  1764057604.035263.jpg
+    7. 23.644 m  1764060246.204688.jpg
+    8. 23.684 m  1764060247.503886.jpg
+    9. 23.716 m  1764060245.405182.jpg
+    10. 23.749 m  1764060248.003578.jpg
+  [距离重试] max_dist=25.0m (+15m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/28.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_t8084wql
+  selected_basenames_count: 18
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/18 wrote 1764057602.236374.png (points=510)
+Wrote 5 masks to /tmp/trees_seg_batch_t8084wql/masks_raw; discarded 13 by occlusion.
+  [遮挡滤除] 丢弃 13 张
+  [距离重试成功] 28_+15m: saved 5, skipped 0
+[22/50] Tree: 29
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/29.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_vubca_sb
+  selected_basenames_count: 24
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/24 wrote 1764060216.922758.png (points=25413)
+Wrote 22 masks to /tmp/trees_seg_batch_vubca_sb/masks_raw; discarded 2 by occlusion.
+  [遮挡滤除] 丢弃 2 张
+  Saved 22 crops, skipped 0
+[23/50] Tree: 3
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/3.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_ifiaafw8
+  selected_basenames_count: 17
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/17 wrote 1764057443.334600.png (points=6286)
+Wrote 17 masks to /tmp/trees_seg_batch_ifiaafw8/masks_raw; discarded 0 by occlusion.
+  Saved 17 crops, skipped 0
+[24/50] Tree: 30
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 15.354 m  1764060221.719802.jpg
+    2. 15.378 m  1764060220.820353.jpg
+    3. 15.415 m  1764060220.320661.jpg
+    4. 15.607 m  1764060222.819119.jpg
+    5. 15.745 m  1764060218.721652.jpg
+    6. 15.918 m  1764060272.388527.jpg
+    7. 15.940 m  1764060273.687725.jpg
+    8. 15.956 m  1764060218.122018.jpg
+    9. 16.160 m  1764060271.589023.jpg
+    10. 16.325 m  1764060274.587169.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+  [距离滤除] 无帧在 max_dist_m=15.0m 内，最近 10 个 pose 的距离:
+    1. 15.354 m  1764060221.719802.jpg
+    2. 15.378 m  1764060220.820353.jpg
+    3. 15.415 m  1764060220.320661.jpg
+    4. 15.607 m  1764060222.819119.jpg
+    5. 15.745 m  1764060218.721652.jpg
+    6. 15.918 m  1764060272.388527.jpg
+    7. 15.940 m  1764060273.687725.jpg
+    8. 15.956 m  1764060218.122018.jpg
+    9. 16.160 m  1764060271.589023.jpg
+    10. 16.325 m  1764060274.587169.jpg
+  [距离重试] max_dist=20.0m (+10m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/30.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_or5ikrop
+  selected_basenames_count: 32
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/32 discard (occl ratio 13.653) 1764060213.624793.jpg
+Wrote 0 masks to /tmp/trees_seg_batch_or5ikrop/masks_raw; discarded 32 by occlusion.
+  [遮挡滤除] 丢弃 32 张
+  [距离+关闭遮挡] 30_+10m_nofilter ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/30.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_me_ewfhv
+  selected_basenames_count: 32
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: None
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/32 wrote 1764060213.624793.png (points=74)
+Wrote 32 masks to /tmp/trees_seg_batch_me_ewfhv/masks_raw; discarded 0 by occlusion.
+  [距离+关闭遮挡成功] 30_+10m_nofilter: saved 32
+[25/50] Tree: 31
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/31.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_vmv2xft0
+  selected_basenames_count: 13
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/13 wrote 1764057601.636746.png (points=5561)
+Wrote 13 masks to /tmp/trees_seg_batch_vmv2xft0/masks_raw; discarded 0 by occlusion.
+  Saved 13 crops, skipped 0
+[26/50] Tree: 32
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 13.494 m  1764060248.003578.jpg
+    2. 13.550 m  1764060247.503886.jpg
+    3. 13.731 m  1764060249.602592.jpg
+    4. 13.850 m  1764060246.204688.jpg
+    5. 14.144 m  1764060245.405182.jpg
+    6. 14.525 m  1764060251.201604.jpg
+    7. 14.665 m  1764060244.405799.jpg
+    8. 14.895 m  1764060251.801234.jpg
+    9. 15.473 m  1764060243.306477.jpg
+    10. 15.676 m  1764060252.900555.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/32.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_oteome5_
+  selected_basenames_count: 8
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/8 discard (occl ratio 1.391) 1764060244.405799.jpg
+Wrote 0 masks to /tmp/trees_seg_batch_oteome5_/masks_raw; discarded 8 by occlusion.
+  [遮挡滤除] 丢弃 8 张
+  [距离+关闭遮挡] 32_+5m_nofilter ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/32.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_522448uw
+  selected_basenames_count: 8
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: None
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/8 wrote 1764060244.405799.png (points=914)
+Wrote 8 masks to /tmp/trees_seg_batch_522448uw/masks_raw; discarded 0 by occlusion.
+  [距离+关闭遮挡成功] 32_+5m_nofilter: saved 8
+[27/50] Tree: 33
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/33.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_1qtummix
+  selected_basenames_count: 24
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/24 wrote 1764060238.309560.png (points=3386)
+Wrote 11 masks to /tmp/trees_seg_batch_1qtummix/masks_raw; discarded 13 by occlusion.
+  [遮挡滤除] 丢弃 13 张
+  Saved 11 crops, skipped 0
+[28/50] Tree: 34
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/34.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_6l_qh1of
+  selected_basenames_count: 20
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/20 wrote 1764060240.308327.png (points=6407)
+Wrote 14 masks to /tmp/trees_seg_batch_6l_qh1of/masks_raw; discarded 6 by occlusion.
+  [遮挡滤除] 丢弃 6 张
+  Saved 14 crops, skipped 0
+[29/50] Tree: 35
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/35.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_38mlrocz
+  selected_basenames_count: 15
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/15 wrote 1764060239.408882.png (points=5863)
+Wrote 10 masks to /tmp/trees_seg_batch_38mlrocz/masks_raw; discarded 5 by occlusion.
+  [遮挡滤除] 丢弃 5 张
+  Saved 10 crops, skipped 0
+[30/50] Tree: 36
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/36.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_s57jz07w
+  selected_basenames_count: 60
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/60 wrote 1764060214.224424.png (points=30040)
+[project] 50/60 wrote 1764060305.268235.png (points=30040)
+Wrote 56 masks to /tmp/trees_seg_batch_s57jz07w/masks_raw; discarded 4 by occlusion.
+  [遮挡滤除] 丢弃 4 张
+  Saved 56 crops, skipped 0
+[31/50] Tree: 37
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/37.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_lcy04pcp
+  selected_basenames_count: 40
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/40 wrote 1764060209.227508.png (points=6902)
+Wrote 32 masks to /tmp/trees_seg_batch_lcy04pcp/masks_raw; discarded 8 by occlusion.
+  [遮挡滤除] 丢弃 8 张
+  Saved 32 crops, skipped 0
+[32/50] Tree: 38
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/38.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_193uwhwn
+  selected_basenames_count: 71
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/71 wrote 1764060209.227508.png (points=15965)
+[project] 50/71 wrote 1764060291.776561.png (points=15965)
+Wrote 49 masks to /tmp/trees_seg_batch_193uwhwn/masks_raw; discarded 22 by occlusion.
+  [遮挡滤除] 丢弃 22 张
+  Saved 49 crops, skipped 0
+[33/50] Tree: 39
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/39.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_lxf24rhf
+  selected_basenames_count: 69
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/69 discard (occl ratio 0.611) 1764060212.525472.jpg
+[project] 50/69 discard (occl ratio 1.266) 1764060294.275019.jpg
+Wrote 19 masks to /tmp/trees_seg_batch_lxf24rhf/masks_raw; discarded 50 by occlusion.
+  [遮挡滤除] 丢弃 50 张
+  Saved 19 crops, skipped 0
+[34/50] Tree: 4
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 27.104 m  1764057604.035263.jpg
+    2. 27.162 m  1764057605.134585.jpg
+    3. 27.330 m  1764057602.236374.jpg
+    4. 27.474 m  1764057601.636746.jpg
+    5. 27.921 m  1764057600.337548.jpg
+    6. 27.984 m  1764057606.933473.jpg
+    7. 28.513 m  1764057599.038352.jpg
+    8. 28.945 m  1764057608.032794.jpg
+    9. 29.727 m  1764057597.539278.jpg
+    10. 29.837 m  1764057608.932238.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+  [距离滤除] 无帧在 max_dist_m=15.0m 内，最近 10 个 pose 的距离:
+    1. 27.104 m  1764057604.035263.jpg
+    2. 27.162 m  1764057605.134585.jpg
+    3. 27.330 m  1764057602.236374.jpg
+    4. 27.474 m  1764057601.636746.jpg
+    5. 27.921 m  1764057600.337548.jpg
+    6. 27.984 m  1764057606.933473.jpg
+    7. 28.513 m  1764057599.038352.jpg
+    8. 28.945 m  1764057608.032794.jpg
+    9. 29.727 m  1764057597.539278.jpg
+    10. 29.837 m  1764057608.932238.jpg
+  [距离重试] max_dist=20.0m (+10m) ...
+  [距离滤除] 无帧在 max_dist_m=20.0m 内，最近 10 个 pose 的距离:
+    1. 27.104 m  1764057604.035263.jpg
+    2. 27.162 m  1764057605.134585.jpg
+    3. 27.330 m  1764057602.236374.jpg
+    4. 27.474 m  1764057601.636746.jpg
+    5. 27.921 m  1764057600.337548.jpg
+    6. 27.984 m  1764057606.933473.jpg
+    7. 28.513 m  1764057599.038352.jpg
+    8. 28.945 m  1764057608.032794.jpg
+    9. 29.727 m  1764057597.539278.jpg
+    10. 29.837 m  1764057608.932238.jpg
+  [距离重试] max_dist=25.0m (+15m) ...
+  [距离滤除] 无帧在 max_dist_m=25.0m 内，最近 10 个 pose 的距离:
+    1. 27.104 m  1764057604.035263.jpg
+    2. 27.162 m  1764057605.134585.jpg
+    3. 27.330 m  1764057602.236374.jpg
+    4. 27.474 m  1764057601.636746.jpg
+    5. 27.921 m  1764057600.337548.jpg
+    6. 27.984 m  1764057606.933473.jpg
+    7. 28.513 m  1764057599.038352.jpg
+    8. 28.945 m  1764057608.032794.jpg
+    9. 29.727 m  1764057597.539278.jpg
+    10. 29.837 m  1764057608.932238.jpg
+  [距离重试] max_dist=30.0m (+20m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/4.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_7j7z62ci
+  selected_basenames_count: 10
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/10 discard (occl ratio 12.135) 1764057597.539278.jpg
+Wrote 9 masks to /tmp/trees_seg_batch_7j7z62ci/masks_raw; discarded 1 by occlusion.
+  [遮挡滤除] 丢弃 1 张
+  [距离重试成功] 4_+20m: saved 9, skipped 0
+[35/50] Tree: 40
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 19.182 m  1764060247.503886.jpg
+    2. 19.207 m  1764060248.003578.jpg
+    3. 19.253 m  1764060246.204688.jpg
+    4. 19.403 m  1764060245.405182.jpg
+    5. 19.656 m  1764060249.602592.jpg
+    6. 19.731 m  1764060244.405799.jpg
+    7. 20.345 m  1764060243.306477.jpg
+    8. 20.587 m  1764060251.201604.jpg
+    9. 20.857 m  1764060242.506971.jpg
+    10. 20.992 m  1764060251.801234.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+  [距离滤除] 无帧在 max_dist_m=15.0m 内，最近 10 个 pose 的距离:
+    1. 19.182 m  1764060247.503886.jpg
+    2. 19.207 m  1764060248.003578.jpg
+    3. 19.253 m  1764060246.204688.jpg
+    4. 19.403 m  1764060245.405182.jpg
+    5. 19.656 m  1764060249.602592.jpg
+    6. 19.731 m  1764060244.405799.jpg
+    7. 20.345 m  1764060243.306477.jpg
+    8. 20.587 m  1764060251.201604.jpg
+    9. 20.857 m  1764060242.506971.jpg
+    10. 20.992 m  1764060251.801234.jpg
+  [距离重试] max_dist=20.0m (+10m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/40.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_miwpntxy
+  selected_basenames_count: 6
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/6 discard (occl ratio 2.902) 1764060244.405799.jpg
+Wrote 0 masks to /tmp/trees_seg_batch_miwpntxy/masks_raw; discarded 6 by occlusion.
+  [遮挡滤除] 丢弃 6 张
+  [距离+关闭遮挡] 40_+10m_nofilter ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/40.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_unhyakqw
+  selected_basenames_count: 6
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: None
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/6 wrote 1764060244.405799.png (points=535)
+Wrote 6 masks to /tmp/trees_seg_batch_unhyakqw/masks_raw; discarded 0 by occlusion.
+  [距离+关闭遮挡成功] 40_+10m_nofilter: saved 6
+[36/50] Tree: 41
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/41.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_svv2h8__
+  selected_basenames_count: 22
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/22 wrote 1764060242.506971.png (points=2783)
+Wrote 14 masks to /tmp/trees_seg_batch_svv2h8__/masks_raw; discarded 8 by occlusion.
+  [遮挡滤除] 丢弃 8 张
+  Saved 14 crops, skipped 0
+[37/50] Tree: 42
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/42.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_v7o07_ce
+  selected_basenames_count: 11
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/11 wrote 1764060242.506971.png (points=1471)
+Wrote 6 masks to /tmp/trees_seg_batch_v7o07_ce/masks_raw; discarded 5 by occlusion.
+  [遮挡滤除] 丢弃 5 张
+  Saved 6 crops, skipped 0
+[38/50] Tree: 43
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/43.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_i5z7sc8a
+  selected_basenames_count: 49
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/49 wrote 1764060203.431088.png (points=13272)
+Wrote 30 masks to /tmp/trees_seg_batch_i5z7sc8a/masks_raw; discarded 19 by occlusion.
+  [遮挡滤除] 丢弃 19 张
+  Saved 30 crops, skipped 0
+[39/50] Tree: 44
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/44.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_67cvz1fx
+  selected_basenames_count: 64
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/64 wrote 1764060205.829608.png (points=13436)
+[project] 50/64 wrote 1764060295.174464.png (points=13436)
+Wrote 39 masks to /tmp/trees_seg_batch_67cvz1fx/masks_raw; discarded 25 by occlusion.
+  [遮挡滤除] 丢弃 25 张
+  Saved 39 crops, skipped 0
+[40/50] Tree: 45
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/45.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_q0tygu9a
+  selected_basenames_count: 36
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/36 wrote 1764060212.525472.png (points=16402)
+Wrote 36 masks to /tmp/trees_seg_batch_q0tygu9a/masks_raw; discarded 0 by occlusion.
+  Saved 36 crops, skipped 0
+[41/50] Tree: 46
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/46.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_532rfh2q
+  selected_basenames_count: 8
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/8 discard (occl ratio 16.947) 1764060216.922758.jpg
+Wrote 0 masks to /tmp/trees_seg_batch_532rfh2q/masks_raw; discarded 8 by occlusion.
+  [遮挡滤除] 丢弃 8 张
+  [关闭遮挡重试] 46_nofilter ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/46.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_zud682pm
+  selected_basenames_count: 8
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: None
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/8 wrote 1764060216.922758.png (points=102)
+Wrote 8 masks to /tmp/trees_seg_batch_zud682pm/masks_raw; discarded 0 by occlusion.
+  [关闭遮挡成功] 46_nofilter: saved 8
+[42/50] Tree: 47
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 11.461 m  1764060221.719802.jpg
+    2. 11.491 m  1764060220.820353.jpg
+    3. 11.540 m  1764060220.320661.jpg
+    4. 11.726 m  1764060222.819119.jpg
+    5. 11.951 m  1764060218.721652.jpg
+    6. 12.046 m  1764060273.687725.jpg
+    7. 12.069 m  1764060272.388527.jpg
+    8. 12.203 m  1764060218.122018.jpg
+    9. 12.352 m  1764060271.589023.jpg
+    10. 12.430 m  1764060274.587169.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/47.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_hvp4u44z
+  selected_basenames_count: 23
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/23 discard (occl ratio 5.111) 1764060214.724116.jpg
+Wrote 0 masks to /tmp/trees_seg_batch_hvp4u44z/masks_raw; discarded 23 by occlusion.
+  [遮挡滤除] 丢弃 23 张
+  [距离+关闭遮挡] 47_+5m_nofilter ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/47.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_2bpv43vy
+  selected_basenames_count: 23
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: None
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/23 wrote 1764060214.724116.png (points=581)
+Wrote 23 masks to /tmp/trees_seg_batch_2bpv43vy/masks_raw; discarded 0 by occlusion.
+  [距离+关闭遮挡成功] 47_+5m_nofilter: saved 23
+[43/50] Tree: 48
+  [距离滤除] 无帧在 max_dist_m=10.0m 内，最近 10 个 pose 的距离:
+    1. 21.334 m  1764060220.320661.jpg
+    2. 21.341 m  1764060220.820353.jpg
+    3. 21.379 m  1764060221.719802.jpg
+    4. 21.481 m  1764060218.721652.jpg
+    5. 21.613 m  1764060218.122018.jpg
+    6. 21.693 m  1764060222.819119.jpg
+    7. 21.763 m  1764060272.388527.jpg
+    8. 21.909 m  1764060271.589023.jpg
+    9. 21.919 m  1764060273.687725.jpg
+    10. 22.152 m  1764060216.922758.jpg
+  [距离重试] max_dist=15.0m (+5m) ...
+  [距离滤除] 无帧在 max_dist_m=15.0m 内，最近 10 个 pose 的距离:
+    1. 21.334 m  1764060220.320661.jpg
+    2. 21.341 m  1764060220.820353.jpg
+    3. 21.379 m  1764060221.719802.jpg
+    4. 21.481 m  1764060218.721652.jpg
+    5. 21.613 m  1764060218.122018.jpg
+    6. 21.693 m  1764060222.819119.jpg
+    7. 21.763 m  1764060272.388527.jpg
+    8. 21.909 m  1764060271.589023.jpg
+    9. 21.919 m  1764060273.687725.jpg
+    10. 22.152 m  1764060216.922758.jpg
+  [距离重试] max_dist=20.0m (+10m) ...
+  [距离滤除] 无帧在 max_dist_m=20.0m 内，最近 10 个 pose 的距离:
+    1. 21.334 m  1764060220.320661.jpg
+    2. 21.341 m  1764060220.820353.jpg
+    3. 21.379 m  1764060221.719802.jpg
+    4. 21.481 m  1764060218.721652.jpg
+    5. 21.613 m  1764060218.122018.jpg
+    6. 21.693 m  1764060222.819119.jpg
+    7. 21.763 m  1764060272.388527.jpg
+    8. 21.909 m  1764060271.589023.jpg
+    9. 21.919 m  1764060273.687725.jpg
+    10. 22.152 m  1764060216.922758.jpg
+  [距离重试] max_dist=25.0m (+15m) ...
+Parameter paths:
+  tree_las: /root/Tree-Seg/tree-origin/48.las
+  pano_image_dir: /root/autodl-fs/222-pcimg-data/panoramicImage
+  pano_poses_csv: /root/autodl-fs/222-pcimg-data/panoramicPoses.csv
+  output_dir: /tmp/trees_seg_batch_jfw6umbv
+  selected_basenames_count: 27
+  downsample_step: 50
+  flip_v: True
+  morph_kernel: 9
+  dilate_iter: 2
+  close_iter: 2
+  map_las: /root/autodl-fs/222-pcimg-data/map2.las
+  occl_area_ratio_thr: 0.4
+  tube_radius_m: 1.0
+  tree_clearance_m: 0.5
+  tree_bbox_margin_m: 0.5
+[project] 1/27 discard (occl ratio 52.974) 1764060213.624793.jpg

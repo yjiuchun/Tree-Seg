@@ -48,7 +48,7 @@ def points_to_mask(
     return mask
 
 
-RefineMode = Literal["largest_contour", "convex_hull", "approx"]
+RefineMode = Literal["largest_contour", "convex_hull", "approx", "external"]
 
 
 def refine_mask(
@@ -60,6 +60,12 @@ def refine_mask(
     """
     Convert a (possibly noisy) binary mask into a single smooth-ish region mask.
     Returns uint8 mask {0,255}.
+
+    Modes:
+      - largest_contour: fill only the largest external contour
+      - convex_hull: convex hull of the largest external contour
+      - approx: polygon approximation of the largest external contour
+      - external: fill ALL external contours (outermost boundaries, holes removed)
     """
     import cv2
 
@@ -72,7 +78,19 @@ def refine_mask(
     contours, _ = cv2.findContours(m, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     if not contours:
         return np.zeros_like(m)
-    # pick largest area
+
+    if mode == "external":
+        # 先用大核闭操作将离散小区域连接为整体，再提取外轮廓填充
+        big_k = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (51, 51))
+        merged = cv2.morphologyEx(m, cv2.MORPH_CLOSE, big_k, iterations=3)
+        merged_contours, _ = cv2.findContours(
+            merged, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE,
+        )
+        out = np.zeros_like(m)
+        if merged_contours:
+            cv2.fillPoly(out, merged_contours, 255)
+        return out
+
     c = max(contours, key=cv2.contourArea)
     if mode == "convex_hull":
         c2 = cv2.convexHull(c)

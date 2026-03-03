@@ -31,8 +31,10 @@ from PC_projection import PCProjection  # noqa: E402
 DEFAULT_PANO_IMAGE_DIR = "/root/autodl-fs/222-pcimg-data/panoramicImage"
 DEFAULT_PANO_POSES_CSV = "/root/autodl-fs/222-pcimg-data/panoramicPoses.csv"
 DEFAULT_MAP_LAS = "/root/autodl-fs/222-pcimg-data/map2.las"
-DEFAULT_TREE_LAS_DIR = "/root/autodl-fs/all-trees"
-DEFAULT_OUTPUT_DIR = "/root/autodl-tmp/all-trees-output"
+DEFAULT_TREE_LAS_DIR = "/root/Tree-Seg/tree-origin"
+DEFAULT_OUTPUT_DIR = "/root/Tree-Seg/50trees-output"
+# 被滤除的图片保存目录（遮挡、空 mask 等）
+DEFAULT_DISCARDED_DIR = Path(__file__).resolve().parent / "temp"
 
 
 def _crop_centered_on_mask(
@@ -90,6 +92,7 @@ def _process_one_tree(
     pano_image_dir: Path,
     pano_poses_csv: Path,
     output_dir: Path,
+    discarded_dir: Optional[Path],
     map_las: Optional[Path],
     max_dist_m: float,
     crop_width: int,
@@ -105,14 +108,8 @@ def _process_one_tree(
     tree_bbox_margin_m: float,
     refine_mask_mode: str = "largest_contour",
     approx_epsilon_ratio: float = 0.005,
-) -> Tuple[int, int, str]:
-    """Run ImageFilter + PCProjection for one tree, then crop and save images.
-
-    Returns (saved_count, skipped_count, reason) where reason is one of:
-      "ok"            – at least one image was saved
-      "dist_filtered" – no panorama within max_dist_m
-      "occl_filtered" – images found but all discarded by occlusion / empty mask
-    """
+) -> Tuple[int, int]:
+    """Run ImageFilter + PCProjection for one tree, then crop and save images. Returns (saved_count, skipped_count)."""
     import cv2
 
     image_filter = ImageFilter(
@@ -139,7 +136,7 @@ def _process_one_tree(
             print(f"    {k}. {d:.3f} m  {name}")
         if len(dist_list) == 0:
             print("  [距离滤除] 姿态表为空，无法统计距离。")
-        return 0, 0, "dist_filtered"
+        return 0, 0
 
     # Temporary directory for this tree's masks (will be removed at the end)
     temp_dir = Path(tempfile.mkdtemp(prefix="trees_seg_batch_"))
@@ -165,14 +162,26 @@ def _process_one_tree(
             write_params_json=False,
         )
 
-        if discarded:
-            print(f"  [遮挡滤除] 丢弃 {len(discarded)} 张")
+        # 将遮挡滤除的图片保存到 discarded_dir/tree_name/occluded/
+        if discarded_dir is not None and discarded:
+            occluded_dir = discarded_dir / tree_name / "occluded"
+            occluded_dir.mkdir(parents=True, exist_ok=True)
+            for key in discarded:
+                src = resolve_pano_image_path(pano_image_dir, key)
+                if src is not None and src.exists():
+                    shutil.copy2(src, occluded_dir / Path(key).name)
+            if discarded:
+                print(f"  [其他滤除] 遮挡丢弃 {len(discarded)} 张已保存到 {occluded_dir}")
 
         tree_out_dir = output_dir / tree_name
         tree_out_dir.mkdir(parents=True, exist_ok=True)
         masks_raw_dir = temp_dir / "masks_raw"
         saved = 0
         skipped = 0
+        empty_mask_saved = 0
+        empty_mask_dir = (discarded_dir / tree_name / "empty_mask") if discarded_dir else None
+        if empty_mask_dir is not None:
+            empty_mask_dir.mkdir(parents=True, exist_ok=True)
 
         for basename in written:
             key = Path(basename).name
@@ -202,25 +211,26 @@ def _process_one_tree(
             segmented = apply_mask_bgr(img, mask)
             cropped = _crop_centered_on_mask(segmented, mask, crop_width, crop_height)
             if cropped is None:
+                if empty_mask_dir is not None:
+                    shutil.copy2(img_path, empty_mask_dir / Path(basename).name)
+                    empty_mask_saved += 1
                 skipped += 1
                 continue
             out_path = tree_out_dir / f"{stem}.png"
             cv2.imwrite(str(out_path), cropped)
             saved += 1
 
-        return saved, skipped, "ok" if saved > 0 else "occl_filtered"
+        if empty_mask_saved > 0:
+            print(f"  [其他滤除] 空 mask 跳过 {empty_mask_saved} 张已保存到 {empty_mask_dir}")
+
+        return saved, skipped
     finally:
         shutil.rmtree(temp_dir, ignore_errors=True)
 
 
 def _collect_las_paths(tree_las_dir: Path, max_trees: int) -> List[Path]:
-    """Enumerate *.las in tree_las_dir, sort numerically by stem, return first max_trees."""
-    def _sort_key(p: Path):
-        try:
-            return (0, int(p.stem))
-        except ValueError:
-            return (1, p.stem)
-    paths = sorted(tree_las_dir.glob("*.las"), key=_sort_key)
+    """Enumerate *.las in tree_las_dir, sort by name, return first max_trees."""
+    paths = sorted(tree_las_dir.glob("*.las"), key=lambda p: p.name)
     return paths[:max_trees]
 
 
@@ -253,6 +263,12 @@ def main() -> None:
         help="Output root directory (one subfolder per tree)",
     )
     parser.add_argument(
+        "--discarded-dir",
+        type=Path,
+        default=Path(DEFAULT_DISCARDED_DIR),
+        help="Directory to save discarded images (occluded / empty_mask), default: Tree-Seg/temp",
+    )
+    parser.add_argument(
         "--map-las",
         type=Path,
         default=Path(DEFAULT_MAP_LAS),
@@ -261,7 +277,7 @@ def main() -> None:
     parser.add_argument(
         "--max-trees",
         type=int,
-        default=700,
+        default=50,
         help="Maximum number of trees to process",
     )
     parser.add_argument(
@@ -345,22 +361,16 @@ def main() -> None:
     parser.add_argument(
         "--refine-mask",
         type=str,
-        choices=["none", "largest_contour", "convex_hull", "approx", "external"],
-        default="external",
-        help="Refine mask: external=fill all outermost contours (default), "
-             "largest_contour=fill largest only, approx=polygon approx, convex_hull=convex fill",
+        choices=["none", "largest_contour", "convex_hull", "approx"],
+        default="largest_contour",
+        help="Refine mask: largest_contour=fill largest only (closest to original), "
+             "approx=polygon approx, convex_hull=convex fill (default: largest_contour)",
     )
     parser.add_argument(
         "--approx-epsilon-ratio",
         type=float,
         default=0.005,
         help="When --refine-mask approx: polygon approx strength (smaller=closer to contour, default 0.005)",
-    )
-    parser.add_argument(
-        "--tree-ids",
-        type=str,
-        default=None,
-        help="Comma-separated tree IDs to process (e.g. '6,7,8,9'). If not set, process all.",
     )
     args = parser.parse_args()
 
@@ -370,11 +380,9 @@ def main() -> None:
         print(f"Tree LAS directory does not exist: {tree_las_dir}")
         sys.exit(1)
     output_dir.mkdir(parents=True, exist_ok=True)
+    args.discarded_dir.mkdir(parents=True, exist_ok=True)
 
     las_paths = _collect_las_paths(tree_las_dir, args.max_trees)
-    if args.tree_ids:
-        wanted = set(args.tree_ids.split(","))
-        las_paths = [p for p in las_paths if p.stem in wanted]
     if not las_paths:
         print(f"No LAS files found in {tree_las_dir}")
         sys.exit(0)
@@ -383,128 +391,37 @@ def main() -> None:
     print(f"Output directory: {output_dir}")
     print(f"Crop size: {args.crop_width}x{args.crop_height}")
 
-    DIST_RETRY_STEP = 5
-    DIST_RETRY_MAX_EXTRA = 20
-    map_las_resolved = args.map_las if args.map_las.exists() else None
-
-    # 构建除 tree_name / max_dist_m / map_las 以外的公共参数
-    common_kwargs = dict(
-        pano_image_dir=args.pano_image_dir,
-        pano_poses_csv=args.pano_poses_csv,
-        output_dir=output_dir,
-        crop_width=args.crop_width,
-        crop_height=args.crop_height,
-        downsample_step=args.downsample_step,
-        flip_v=args.flip_v,
-        morph_kernel=args.morph_kernel,
-        dilate_iter=args.dilate_iter,
-        close_iter=args.close_iter,
-        occl_area_ratio_thr=args.occl_area_ratio_thr,
-        tube_radius_m=args.tube_radius_m,
-        tree_clearance_m=args.tree_clearance_m,
-        tree_bbox_margin_m=args.tree_bbox_margin_m,
-        refine_mask_mode=args.refine_mask,
-        approx_epsilon_ratio=args.approx_epsilon_ratio,
-    )
-
     total_saved = 0
     total_skipped = 0
     for i, las_path in enumerate(las_paths):
         tree_name = las_path.stem
         print(f"[{i+1}/{len(las_paths)}] Tree: {tree_name}")
-
-        saved, skipped, reason = _process_one_tree(
+        saved, skipped = _process_one_tree(
             tree_las_path=las_path,
             tree_name=tree_name,
-            map_las=map_las_resolved,
+            pano_image_dir=args.pano_image_dir,
+            pano_poses_csv=args.pano_poses_csv,
+            output_dir=output_dir,
+            discarded_dir=args.discarded_dir,
+            map_las=args.map_las if args.map_las.exists() else None,
             max_dist_m=args.max_dist_m,
-            **common_kwargs,
+            crop_width=args.crop_width,
+            crop_height=args.crop_height,
+            downsample_step=args.downsample_step,
+            flip_v=args.flip_v,
+            morph_kernel=args.morph_kernel,
+            dilate_iter=args.dilate_iter,
+            close_iter=args.close_iter,
+            occl_area_ratio_thr=args.occl_area_ratio_thr,
+            tube_radius_m=args.tube_radius_m,
+            tree_clearance_m=args.tree_clearance_m,
+            tree_bbox_margin_m=args.tree_bbox_margin_m,
+            refine_mask_mode=args.refine_mask,
+            approx_epsilon_ratio=args.approx_epsilon_ratio,
         )
-
-        if saved > 0:
-            total_saved += saved
-            total_skipped += skipped
-            print(f"  Saved {saved} crops, skipped {skipped}")
-            continue
-
-        # ── 距离滤除 → 每次增大 5m 重试，最多 +20m ──
-        if reason == "dist_filtered":
-            retry_ok = False
-            for delta in range(DIST_RETRY_STEP,
-                               DIST_RETRY_MAX_EXTRA + 1,
-                               DIST_RETRY_STEP):
-                new_dist = args.max_dist_m + delta
-                retry_name = f"{tree_name}_+{delta}m"
-                print(f"  [距离重试] max_dist={new_dist}m (+{delta}m) ...")
-                saved, skipped, reason = _process_one_tree(
-                    tree_las_path=las_path,
-                    tree_name=retry_name,
-                    map_las=map_las_resolved,
-                    max_dist_m=new_dist,
-                    **common_kwargs,
-                )
-                if saved > 0:
-                    total_saved += saved
-                    total_skipped += skipped
-                    print(f"  [距离重试成功] {retry_name}: saved {saved}, skipped {skipped}")
-                    retry_ok = True
-                    break
-
-                # 遮挡导致仍为空 → 关闭遮挡再试一次
-                if reason == "occl_filtered":
-                    retry_nf_name = f"{tree_name}_+{delta}m_nofilter"
-                    print(f"  [距离+关闭遮挡] {retry_nf_name} ...")
-                    # 清理 distance-only 产生的空文件夹
-                    empty_dir = output_dir / retry_name
-                    if empty_dir.exists():
-                        shutil.rmtree(empty_dir, ignore_errors=True)
-                    saved, skipped, reason = _process_one_tree(
-                        tree_las_path=las_path,
-                        tree_name=retry_nf_name,
-                        map_las=None,
-                        max_dist_m=new_dist,
-                        **common_kwargs,
-                    )
-                    if saved > 0:
-                        total_saved += saved
-                        total_skipped += skipped
-                        print(f"  [距离+关闭遮挡成功] {retry_nf_name}: saved {saved}")
-                        retry_ok = True
-                        break
-                    # 仍失败，清理空文件夹
-                    empty_dir = output_dir / retry_nf_name
-                    if empty_dir.exists():
-                        shutil.rmtree(empty_dir, ignore_errors=True)
-                else:
-                    # dist_filtered 仍然距离不够，清理空文件夹（实际不会创建）
-                    empty_dir = output_dir / retry_name
-                    if empty_dir.exists():
-                        shutil.rmtree(empty_dir, ignore_errors=True)
-
-            if not retry_ok:
-                print(f"  [放弃] 树 {tree_name}: +{DIST_RETRY_MAX_EXTRA}m 仍无法生成图片")
-
-        # ── 遮挡滤除 → 关闭遮挡重试 ──
-        elif reason == "occl_filtered":
-            retry_name = f"{tree_name}_nofilter"
-            print(f"  [关闭遮挡重试] {retry_name} ...")
-            # 清理原始空文件夹
-            empty_dir = output_dir / tree_name
-            if empty_dir.exists():
-                shutil.rmtree(empty_dir, ignore_errors=True)
-            saved, skipped, reason = _process_one_tree(
-                tree_las_path=las_path,
-                tree_name=retry_name,
-                map_las=None,
-                max_dist_m=args.max_dist_m,
-                **common_kwargs,
-            )
-            if saved > 0:
-                total_saved += saved
-                total_skipped += skipped
-                print(f"  [关闭遮挡成功] {retry_name}: saved {saved}")
-            else:
-                print(f"  [放弃] 树 {tree_name}: 关闭遮挡后仍无图片")
+        total_saved += saved
+        total_skipped += skipped
+        print(f"  Saved {saved} crops, skipped {skipped}")
 
     print(f"Done. Total crops saved: {total_saved} (skipped: {total_skipped})")
 
